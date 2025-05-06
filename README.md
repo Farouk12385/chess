@@ -5,8 +5,6 @@
 </div>
 
 ## ✨ UML
-- **Blazing Fast** – Built with Rust & WASM.  
-- **Open Source** – Free forever.  
 
 ## 📦 Install  
 ```bash
