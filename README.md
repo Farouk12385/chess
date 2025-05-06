@@ -5,6 +5,7 @@
 </div>
 
 ## ✨ UML
+![Alt Text](https://github.com/Farouk12385/chess/blob/main/Chess%20Structure.png)
 
 ## 📦 Install  
 ```bash
