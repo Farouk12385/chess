@@ -1,4 +1,4 @@
-##♟️Chess Game in Python
+## ♟️Chess Game in Python
 
 A Python implementation of chess with a graphical interface using Pygame. This project includes a complete chess engine with all standard rules and a user-friendly interface.
 
