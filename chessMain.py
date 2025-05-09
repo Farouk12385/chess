@@ -5,6 +5,7 @@ it is responsible for the game loop and user input
 
 import pygame as p
 from chessEngine import GameState, Move
+import random
 
 # Initialize pygame
 p.init()
@@ -178,6 +179,57 @@ def show_game_mode_screen(screen):
                         ai_button.centery - ai_text.get_height()//2))
         p.display.flip()
 #------------------------------
+# def evaluateBoard(self):
+#     """
+#     Basic material evaluation: positive for white, negative for black
+#     """
+#     piece_values = {
+#         'K': 0, 'Q': 9, 'R': 5, 'B': 3, 'N': 3, 'p': 1
+#     }
+#     score = 0
+#     for row in self.board:
+#         for square in row:
+#             if square != "--":
+#                 value = piece_values[square[1]]
+#                 score += value if square[0] == 'w' else -value
+#     return score
+
+#------------------------------
+def minimax(gs, depth, alpha, beta, maximizing_player):
+    if depth == 0 or gs.checkMate or gs.staleMate:
+        return gs.evaluateBoard(), None
+
+    valid_moves = gs.getValidMoves()
+    best_move = None
+
+    if maximizing_player:
+        max_eval = float('-inf')
+        for move in valid_moves:
+            gs.makeMove(move)
+            eval, _ = minimax(gs, depth - 1, alpha, beta, False)
+            gs.undoMove()
+            if eval > max_eval:
+                max_eval = eval
+                best_move = move
+            alpha = max(alpha, eval)
+            if beta <= alpha:
+                break
+        return max_eval, best_move
+    else:
+        min_eval = float('inf')
+        for move in valid_moves:
+            gs.makeMove(move)
+            eval, _ = minimax(gs, depth - 1, alpha, beta, True)
+            gs.undoMove()
+            if eval < min_eval:
+                min_eval = eval
+                best_move = move
+            beta = min(beta, eval)
+            if beta <= alpha:
+                break
+        return min_eval, best_move
+
+#------------------------------
 def main():
     """
     Main game loop
@@ -251,7 +303,14 @@ def main():
         
         # AI move logic would go here
         if not game_over and not human_turn and game_mode == "ai":
-            pass  # Placeholder for AI logic
+            _, ai_move = minimax(gs, 3, float('-inf'), float('inf'), False)
+            if ai_move:
+                gs.makeMove(ai_move)
+                move_made = True
+                animate = True
+                sq_selected = ()
+                player_clicks = []
+
         
         if move_made:
             if animate:

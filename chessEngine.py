@@ -382,6 +382,23 @@ class GameState():
             if not self.squareUnderAttack(r, c-1) and not self.squareUnderAttack(r, c-2):
                 moves.append(Move((r, c), (r, c-2), self.board, isCastleMove=True))
 
+#----------------------------------------------------------------------------------------------------------------------------------------------\
+    
+    def evaluateBoard(self):
+        """
+        Basic material evaluation: positive for white, negative for black
+        """
+        piece_values = {
+            'K': 0, 'Q': 9, 'R': 5, 'B': 3, 'N': 3, 'p': 1
+        }
+        score = 0
+        for row in self.board:
+            for square in row:
+                if square != "--":
+                    value = piece_values[square[1]]
+                    score += value if square[0] == 'w' else -value
+        return score
+    
 #----------------------------------------------------------------------------------------------------------------------------------------------
 class CastleRights():
     """
